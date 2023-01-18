@@ -1,0 +1,5 @@
+collections:
+  - netbox.netbox
+  - cisco.ios
+  - cisco.iosxr
+  - cisco.nxos
