@@ -1,7 +1,17 @@
 - name: Hello World Sample
-  hosts: all
-  tasks:
-    - name: Hello Message
-      debug:
-        msg: "Hello World!"
+  hosts: role_core_switch
+  gather_facts: false
 
+  tasks:
+    - name: Print device name
+      debug:
+        msg: "Current device is {{inventory_hostname}}"
+
+    - name: Obtain list of interfaces for active devices
+      debug:
+        msg: "Interfaces in Netbox: {{ query('netbox.netbox.nb_lookup', 'interfaces', api_filter='device=' + inventory_hostname) | length}}"
+      when: status.value == "active"
+
+    - name: Check if monitoring is enabled?
+      debug: msg="Monitoring is ENABLED!"
+      when: custom_fields.icmp_monitoring
